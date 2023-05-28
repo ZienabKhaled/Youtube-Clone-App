@@ -12,12 +12,14 @@ const Feed = () => {
   // Mostafa
   const params = { part: "snippet", q: selectedCategory, maxResults: "50" };
 
-  useEffect(() => {
-      fetchFromAPI(`search`, params)
-      .then((data)=> setVideos(data.items)
-      )
-  }, [params]);
+  // useEffect(() => {
+  //     fetchFromAPI(`search`, params)
+  //     .then((data)=> setVideos(data.items)
+  //     )
+  // }, [params]);
+  
 
+  //Original
   // useEffect(()=> {
   //   fetchFromAPI(`search?part=snippet&q=${selectedCategory}`);
   // },[selectedCategory])

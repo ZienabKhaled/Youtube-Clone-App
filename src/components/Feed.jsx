@@ -3,15 +3,56 @@ import { Stack, Box , Typography } from "@mui/material";
 import Sidebar from "./Sidebar";
 import Videos from "./Videos";
 
+import { fetchFromAPI } from "../utils/fetchFromAPI";
 
 const Feed = () => {
+
+  const [selectedCategory, setSelectedCategory] = useState('New');
+  const [videos , setVideos]= useState([]);
+  // Mostafa
+  const params = { part: "snippet", q: selectedCategory, maxResults: "50" };
+
+  useEffect(() => {
+      fetchFromAPI(`search`, params)
+      .then((data)=> setVideos(data.items)
+      )
+  }, [params]);
+
+  // useEffect(()=> {
+  //   fetchFromAPI(`search?part=snippet&q=${selectedCategory}`);
+  // },[selectedCategory])
+
+
+  //ChatGPT Code
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const data = await fetchFromAPI(`search?part=snippet&q=${selectedCategory}`);
+  //       // Process the fetched data or update state with the data here
+  //       console.log(data);
+  //     } catch (error) {
+  //       // Handle any error that occurred during the fetch
+  //       console.error(error);
+  //     }
+  //   };
+  
+  //   fetchData();
+  // }, [selectedCategory]);
+  
+
 return(
   <Stack sx={{ flexDirection:{
     sx:"column" , md:"row"} 
   }}>
     <Box sx={{ height:{ sx: 'auto' , md: '92vh' } 
   , borderRight: '1px solid #3d3d3d ' , px:{ sx: 0 , md: 2} }}>
-  <Sidebar/>
+
+  <Sidebar
+    selectedCategory={selectedCategory}
+    setSelectedCategory={setSelectedCategory}
+  
+  />
+
   <Typography className="copyright"
   variant="body2" sx={{ mt:1.5 , color:'#fff' }}
   >
@@ -23,12 +64,12 @@ return(
       <Typography variant="h4" fontWeight="bold" mb={2}
       sx={{ color:'#fff'}}
       >
-        New <span style={{ color:'#F31503' }}>
+        {selectedCategory} <span style={{ color:'#F31503' }}>
           videos
         </span>
       </Typography>
 
-      <Videos videos={[ ] }   />
+      <Videos videos={videos }   />
       </Box>  
 
   </Stack>
